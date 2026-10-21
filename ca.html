@@ -115,6 +115,19 @@ async function readShiftImage(){
 }
 document.querySelector('#readImage').addEventListener('click',readShiftImage);
 function resetSample(){codes=[...DATA.defaultCodes];renderDays()}
+// Nhận dữ liệu văn bản khi người dùng nhấn Ctrl+V. Một số trình duyệt/khung nhúng không tự chèn clipboard vào textarea, nên xử lý rõ ràng tại đây.
+const pasteBox=document.querySelector('#pasteShifts');
+pasteBox.addEventListener('paste',event=>{
+ const text=event.clipboardData?.getData('text/plain') ?? event.clipboardData?.getData('text');
+ if(text){event.preventDefault();const start=pasteBox.selectionStart??pasteBox.value.length;const end=pasteBox.selectionEnd??pasteBox.value.length;pasteBox.value=pasteBox.value.slice(0,start)+text+pasteBox.value.slice(end);pasteBox.setSelectionRange(start+text.length,start+text.length);document.querySelector('#pasteStatus').textContent='Đã dán dữ liệu từ clipboard. Nhấn “Đọc bảng ca” để cập nhật lịch.';}
+});
+// Nếu Ctrl+V được nhấn khi đang ở ngoài ô nhập, vẫn đưa văn bản vào ô dán bảng ca.
+document.addEventListener('paste',event=>{
+ const target=event.target;const isEditable=target&&(target.isContentEditable||/^(INPUT|TEXTAREA)$/i.test(target.tagName));
+ if(isEditable)return;
+ const text=event.clipboardData?.getData('text/plain') ?? event.clipboardData?.getData('text');
+ if(text&&text.trim()){event.preventDefault();pasteBox.value=text;document.querySelector('#pasteStatus').textContent='Đã nhận dữ liệu clipboard. Nhấn “Đọc bảng ca” để cập nhật lịch.';pasteBox.focus();}
+});
 document.querySelector('#applyPaste').addEventListener('click',applyPastedShifts);
 document.querySelector('#readClipboard').addEventListener('click',async()=>{
  const status=document.querySelector('#pasteStatus');
