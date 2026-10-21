@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#123b32">
+<title>Trợ lý tính lương</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f3f6f5;color:#152b25}.top{background:linear-gradient(130deg,#123b32,#1d7661);color:white;padding:20px 16px 16px}.top h1{font-size:23px;margin:0 0 5px}.top p{font-size:13px;margin:0;opacity:.9}.tabs{display:flex;gap:8px;padding:10px;background:white;position:sticky;top:0;z-index:5;border-bottom:1px solid #dce6e1;box-shadow:0 3px 10px #102a2010}.tab{flex:1;border:0;border-radius:10px;padding:12px 8px;font-weight:750;font-size:13px;background:#edf3f0;color:#28564a}.tab.active{background:#14594b;color:white}.frame-wrap{height:calc(100dvh - 148px);min-height:520px}.appframe{border:0;width:100%;height:100%;display:none;background:#f4f7f6}.appframe.active{display:block}.note{font-size:11px;color:#d8eee7;margin-top:7px}@media(min-width:700px){.top{padding-left:max(20px,calc((100vw - 980px)/2));padding-right:max(20px,calc((100vw - 980px)/2))}.tabs{padding-left:max(12px,calc((100vw - 980px)/2));padding-right:max(12px,calc((100vw - 980px)/2))}.frame-wrap{height:calc(100dvh - 142px)}}
+</style>
+</head>
+<body>
+<header class="top"><h1>Trợ lý tính lương</h1><p>Chọn công cụ cần dùng. Dữ liệu được xử lý trong trình duyệt trên thiết bị của bạn.</p><div class="note">Hai công cụ được giữ riêng để tránh làm thay đổi công thức gốc của từng trang.</div></header>
+<nav class="tabs" aria-label="Chọn công cụ">
+<button class="tab active" data-target="caFrame">Nhập ca & tính lương</button>
+<button class="tab" data-target="ctFrame">Nhập thông tin sheet CT</button>
+</nav>
+<main class="frame-wrap">
+<iframe id="caFrame" class="appframe active" src="ca.html" title="Nhập ca và tính lương"></iframe>
+<iframe id="ctFrame" class="appframe" src="ct.html" title="Nhập thông tin sheet CT"></iframe>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('.tab')],frames=[...document.querySelectorAll('.appframe')];
+tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(t=>t.classList.toggle('active',t===tab));frames.forEach(f=>f.classList.toggle('active',f.id===tab.dataset.target));}));
+</script>
+</body></html>
